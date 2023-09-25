@@ -97,7 +97,7 @@ jobs:
           rm temp.zip
           cp -r ${{ env.MOD_FOLDER_PATH }}/* ${{ env.RELEASE_FOLDER_PATH }}
           rm -rf ${{ env.MOD_FOLDER_PATH }}
-      -name: Apply 'Paril_BJ_BEEESSS_Addon'
+      - name: Apply 'Paril_BJ_BEEESSS_Addon'
         env:
           MOD_FOLDER_PATH: ./'Paril BJ BEEESSS Addon'
         run: |

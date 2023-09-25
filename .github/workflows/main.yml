@@ -30,7 +30,7 @@ jobs:
         run: |
           cp -r .github/pwa/* ${{ env.RELEASE_FOLDER_PATH }}
           mv "${{ env.RELEASE_FOLDER_PATH }}/Degrees of Lewdity.html" ${{ env.RELEASE_FOLDER_PATH }}/index.html
-      - name: Modify HTML
+      - name: Modify HTML---Enable Diff Platform Support
         shell: python3 {0}
         run: |
           with open("${{ env.RELEASE_FOLDER_PATH }}/index.html", "r+", encoding="utf-8") as index_html_file:
@@ -70,6 +70,7 @@ jobs:
         run: |
           unzip -q ${{ env.RELEASE_ARTIFACT_PATH }} -d ${{ env.RELEASE_FOLDER_PATH }}
           rm ${{ env.RELEASE_ARTIFACT_PATH }}
+
       - name: Apply 'Degrees of Lewdity Graphics Mod'
         env:
           MOD_FOLDER_PATH: ./degrees-of-lewdity-graphics-mod
@@ -82,6 +83,7 @@ jobs:
           popd
           cp -r ${{ env.MOD_FOLDER_PATH }}/* ${{ env.RELEASE_FOLDER_PATH }}
           rm -rf ${{ env.MOD_FOLDER_PATH }}
+
       - name: Apply 'BEEESSS Community Sprite Compilation'
         env:
           MOD_FOLDER_PATH: ./kaervek-beeesss-community-sprite-compilation-master-img
@@ -91,7 +93,8 @@ jobs:
           rm temp.zip
           cp -r ${{ env.MOD_FOLDER_PATH }}/* ${{ env.RELEASE_FOLDER_PATH }}
           rm -rf ${{ env.MOD_FOLDER_PATH }}
-      - name: Modify HTML
+
+      - name: Modify HTML---Add Mod Info Into Index Page
         shell: python3 {0}
         run: |
           with open("${{ env.RELEASE_FOLDER_PATH }}/index.html", "r+", encoding="utf-8") as index_html_file:

@@ -10,11 +10,15 @@ env:
   RELEASE_ARTIFACT_PATH: ./dol-release.zip
   RELEASE_FOLDER_PATH: ./dol-release
 
+  RELEASE_CHS_VERSION: alpha0.0.0
+  RELEASE_GAME_VERSION: v0.0.0.0
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      # 下载汉化后游戏文件
       - id: getRelease
         name: release-downloader
         uses: robinraju/release-downloader@v1.8
@@ -22,14 +26,22 @@ jobs:
           repository: "Eltirosto/Degrees-of-Lewdity-Chinese-Localization"
           latest: true
           fileName: "dol-*.zip"
+      # 解压下载的汉化后游戏文件
       - name: Extract downloaded file
         run: |
-          echo "Downloaded Chinese version DOL: ${{ steps.getRelease.outputs.tag_name }}"
+          FILENAME=${{ steps.getRelease.outputs.tag_name }}
+
+          echo "RELEASE_CHS_VERSION=${FILENAME##*-}" >> $GITHUB_ENV
+          echo "RELEASE_GAME_VERSION=${FILENAME%%-*}" >> $GITHUB_ENV
+
+          echo "Downloaded Chinese version DOL: ${FILENAME}"
           unzip -q ${{ fromJson(steps.getRelease.outputs.downloaded_files)[0] }} -d ${{ env.RELEASE_FOLDER_PATH }}
+      # 处理index页面
       - name: Construct PWA
         run: |
           cp -r .github/pwa/* ${{ env.RELEASE_FOLDER_PATH }}
           mv "${{ env.RELEASE_FOLDER_PATH }}/Degrees of Lewdity.html" ${{ env.RELEASE_FOLDER_PATH }}/index.html
+      # 处理index适配
       - name: Modify HTML---Enable Diff Platform Support
         shell: python3 {0}
         run: |
@@ -48,9 +60,11 @@ jobs:
             index_html_file.seek(0)
             index_html_file.truncate()
             index_html_file.write(index_html)
+      # 打包[无mod初始包]
       - name: Pack release artifact
         run: |
           7z a ${{ env.RELEASE_ARTIFACT_PATH }} ${{ env.RELEASE_FOLDER_PATH }}/*
+      # 发包[无mod初始包]
       - name: Upload release artifact
         uses: actions/upload-artifact@v3
         with:
@@ -93,6 +107,17 @@ jobs:
           rm temp.zip
           cp -r ${{ env.MOD_FOLDER_PATH }}/* ${{ env.RELEASE_FOLDER_PATH }}
           rm -rf ${{ env.MOD_FOLDER_PATH }}
+      
+      -name: Apply 'Paril_BJ_BEEESSS_Addon'
+        env:
+          MOD_FOLDER_PATH: ./'Paril BJ BEEESSS Addon'
+        run: |
+          sudo apt-get install unrar
+          wget -q https://gitgud.io/GTXMEGADUDE/papa-paril-burger-joint/-/raw/master/Paril_BJ_BEEESSS_Addon.rar -O temp.rar
+          unrar x temp.rar -idq
+          rm temp.rar
+          cp -r ${{ env.MOD_FOLDER_PATH }}/* ${{ env.RELEASE_FOLDER_PATH }}
+          rm -rf ${{ env.MOD_FOLDER_PATH }}
 
       - name: Modify HTML---Add Mod Info Into Index Page
         shell: python3 {0}
@@ -107,6 +132,8 @@ jobs:
                 "- Degrees of Lewdity Graphics Mod\n" + \
                 "&lt;br&gt;\n" + \
                 "- BEEESSS Community Sprite Compilation\n" + \
+                "&lt;br&gt;\n" + \
+                "- Paril BJ BEEESSS Addon\n" + \
                 "&lt;br&gt;\n" + index_html[insert_index:]
             index_html_file.seek(0)
             index_html_file.truncate()

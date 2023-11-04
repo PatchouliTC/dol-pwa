@@ -97,7 +97,7 @@ jobs:
 
       - name: Apply 'BEEESSS Wax(WAX)'
         env:
-          MOD_FOLDER_PATH: ./beeesss-wax-img
+          MOD_FOLDER_PATH: ./'BEEESSS WAX'
         run: |
           sudo apt-get install unrar
           wget -q -nc -O temp.rar https://gitgud.io/GTXMEGADUDE/beeesss-wax/-/raw/master/BEEESSS_WAX.rar

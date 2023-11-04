@@ -100,7 +100,7 @@ jobs:
           MOD_FOLDER_PATH: ./beeesss-wax-img
         run:
           sudo apt-get install unrar
-          wget -q https://gitgud.io/GTXMEGADUDE/beeesss-wax/-/raw/master/BEEESSS_WAX.rar -O temp.rar
+          wget -q -nc -O temp.rar https://gitgud.io/GTXMEGADUDE/beeesss-wax/-/raw/master/BEEESSS_WAX.rar
           unrar x temp.rar -idq
           rm temp.rar
           cp -r ${{ env.MOD_FOLDER_PATH }}/chubby/* ${{ env.RELEASE_FOLDER_PATH }}
@@ -112,7 +112,7 @@ jobs:
           MOD_FOLDER_PATH: ./'Paril BJ BEEESSS Addon'
         run: |
           sudo apt-get install unrar
-          wget -q https://gitgud.io/GTXMEGADUDE/papa-paril-burger-joint/-/raw/be9c9af63349beb811775f7802f06915dede290a/Paril_BJ_BEEESSS_Addon.rar -O temp.rar
+          wget -q -nc -O temp.rar https://gitgud.io/GTXMEGADUDE/papa-paril-burger-joint/-/raw/be9c9af63349beb811775f7802f06915dede290a/Paril_BJ_BEEESSS_Addon.rar
           unrar x temp.rar -idq
           rm temp.rar
           rm -rf ${{ env.MOD_FOLDER_PATH }}/README.md

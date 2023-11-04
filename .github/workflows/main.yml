@@ -71,7 +71,8 @@ jobs:
         run: |
           unzip -q ${{ env.RELEASE_ARTIFACT_PATH }} -d ${{ env.RELEASE_FOLDER_PATH }}
           rm ${{ env.RELEASE_ARTIFACT_PATH }}
-      - name: Apply 'Degrees of Lewdity Graphics Mod'
+
+      - name: Apply 'Degrees of Lewdity Graphics Mod(BES)'
         env:
           MOD_FOLDER_PATH: ./degrees-of-lewdity-graphics-mod
         run: |
@@ -83,7 +84,8 @@ jobs:
           popd
           cp -r ${{ env.MOD_FOLDER_PATH }}/* ${{ env.RELEASE_FOLDER_PATH }}
           rm -rf ${{ env.MOD_FOLDER_PATH }}
-      - name: Apply 'BEEESSS Community Sprite Compilation'
+
+      - name: Apply 'BEEESSS Community Sprite Compilation(BESC)'
         env:
           MOD_FOLDER_PATH: ./kaervek-beeesss-community-sprite-compilation-master-img
         run: |
@@ -92,17 +94,31 @@ jobs:
           rm temp.zip
           cp -r ${{ env.MOD_FOLDER_PATH }}/* ${{ env.RELEASE_FOLDER_PATH }}
           rm -rf ${{ env.MOD_FOLDER_PATH }}
-      - name: Apply 'Paril_BJ_BEEESSS_Addon'
+
+      - name: Apply 'BEEESSS Wax(WAX)'
+        env:
+          MOD_FOLDER_PATH: ./beeesss-wax-img
+        run:
+        sudo apt-get install unrar
+          wget -q https://gitgud.io/GTXMEGADUDE/beeesss-wax/-/raw/master/BEEESSS_WAX.rar -O temp.rar
+          unrar x temp.rar -idq
+          rm temp.rar
+          cp -r ${{ env.MOD_FOLDER_PATH }}/chubby/* ${{ env.RELEASE_FOLDER_PATH }}
+          rm -rf ${{ env.MOD_FOLDER_PATH }}
+
+
+      - name: Apply 'Paril_BJ_BEEESSS_Addon(BJ Special View)'
         env:
           MOD_FOLDER_PATH: ./'Paril BJ BEEESSS Addon'
         run: |
           sudo apt-get install unrar
-          wget -q https://gitgud.io/GTXMEGADUDE/papa-paril-burger-joint/-/raw/master/Paril_BJ_BEEESSS_Addon.rar -O temp.rar
+          wget -q https://gitgud.io/GTXMEGADUDE/papa-paril-burger-joint/-/raw/be9c9af63349beb811775f7802f06915dede290a/Paril_BJ_BEEESSS_Addon.rar -O temp.rar
           unrar x temp.rar -idq
           rm temp.rar
           rm -rf ${{ env.MOD_FOLDER_PATH }}/README.md
           cp -r ${{ env.MOD_FOLDER_PATH }}/* ${{ env.RELEASE_FOLDER_PATH }}
           rm -rf ${{ env.MOD_FOLDER_PATH }}
+
       - name: Modify HTML---Add Mod Info Into Index Page
         shell: python3 {0}
         run: |
@@ -116,6 +132,8 @@ jobs:
                 "- Degrees of Lewdity Graphics Mod\n" + \
                 "&lt;br&gt;\n" + \
                 "- BEEESSS Community Sprite Compilation\n" + \
+                "&lt;br&gt;\n" + \
+                "- BEEESSS Wax\n" + \
                 "&lt;br&gt;\n" + \
                 "- Paril BJ BEEESSS Addon\n" + \
                 "&lt;br&gt;\n" + index_html[insert_index:]

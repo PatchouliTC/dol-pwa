@@ -99,7 +99,7 @@ jobs:
         env:
           MOD_FOLDER_PATH: ./beeesss-wax-img
         run:
-        sudo apt-get install unrar
+          sudo apt-get install unrar
           wget -q https://gitgud.io/GTXMEGADUDE/beeesss-wax/-/raw/master/BEEESSS_WAX.rar -O temp.rar
           unrar x temp.rar -idq
           rm temp.rar
